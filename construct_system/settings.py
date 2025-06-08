@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rolepermissions',
     'usuarios',
 ]
 
@@ -107,4 +108,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Configurando a autenticação
 AUTH_USER_MODEL = 'usuarios.Users'
+
+
+# Configurando o RolePermissions
+ROLEPERMISSIONS_MODULE = 'construct_system.roles'
