@@ -2,6 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from rolepermissions.decorators import has_permission_decorator
 from .models import Users
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.contrib import auth
 
 @has_permission_decorator('cadastrar_vendedores')
 def cadastrar_vendedor(request):
@@ -24,3 +27,22 @@ def cadastrar_vendedor(request):
         )
 
         return HttpResponse('Usuário cadastrado com sucesso')
+
+
+def login(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return redirect(reverse('home'))  # Redireciona para a página inicial se já estiver logado
+        return render(request, 'login.html')
+    
+    elif request.method == 'POST':
+        login = request.POST.get('email')
+        senha = request.POST.get('senha')
+
+        user = auth.authenticate(username=login, password=senha)
+
+        if not user:
+            return HttpResponse('Usuário ou senha inválidos')
+        
+        auth.login(request, user)
+        return HttpResponse('Usuário logado com sucesso')
