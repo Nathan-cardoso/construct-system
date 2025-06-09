@@ -46,3 +46,8 @@ def login(request):
         
         auth.login(request, user)
         return HttpResponse('Usuário logado com sucesso')
+
+
+def logout(request):
+    request.session.flush()  # Limpa a sessão do usuário
+    return redirect(reverse('login'))  # Redireciona para a página de login
